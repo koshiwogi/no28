@@ -9,15 +9,22 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::get('/', function () {
-    return view('welcome');
+	return view('welcome');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+//ここから
+Route::prefix('admin')->group(function() {
+	Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
+	Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
+	Route::get('/', 'AdminController@index')->name('admin.dashboard');
+});
+//ここまで
 Route::get('/item/index', 'ItemController@index')->name('item');
 Route::get('/item/detail/{item_id}', 'ItemController@detail')->name('item.detail');
 Route::get('/item/detail/', 'ItemController@index')->name('detail');
